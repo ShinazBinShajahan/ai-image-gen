@@ -1,6 +1,8 @@
-"use client";
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 export default function Home() {
 	const [prompt, setPrompt] = useState("");
@@ -10,6 +12,7 @@ export default function Home() {
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 		setLoading(true);
+
 		try {
 			const response = await fetch("/api/v1/generateImage", {
 				method: "POST",
@@ -18,7 +21,9 @@ export default function Home() {
 				},
 				body: JSON.stringify({ prompt }),
 			});
+
 			const data = await response.json();
+
 			if (response.ok) {
 				setImage(data.image);
 			} else {
@@ -33,115 +38,61 @@ export default function Home() {
 	};
 
 	return (
-		<div style={styles.container}>
-			<h1 style={styles.title}>AI Image Generator</h1>
-			<form onSubmit={handleSubmit} style={styles.form}>
-				<input
-					type="text"
-					value={prompt}
-					onChange={(e) => setPrompt(e.target.value)}
-					placeholder="Enter a description..."
-					style={styles.input}
-				/>
-				<button
-					type="submit"
-					disabled={loading}
-					style={{
-						...styles.button,
-						...(loading && styles.buttonDisabled),
-					}}
-				>
-					{loading ? <span style={styles.spinner}></span> : "Generate Image"}
-				</button>
-			</form>
-			{image && (
-				<div style={styles.imageContainer}>
-					<h2 style={styles.subtitle}>Generated Image:</h2>
-					<img
-						src={`data:image/png;base64,${image}`}
-						alt="Generated"
-						style={styles.image}
-					/>
+		<div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+			<div className="max-w-4xl mx-auto px-4 py-12">
+				<div className="text-center mb-12">
+					<h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+						AI Image Generator
+					</h1>
+					<p className="text-gray-400 text-lg">
+						Transform your ideas into stunning images using AI
+					</p>
 				</div>
-			)}
+
+				<form onSubmit={handleSubmit} className="max-w-2xl mx-auto mb-12">
+					<div className="flex flex-col sm:flex-row gap-4">
+						<input
+							type="text"
+							value={prompt}
+							onChange={(e) => setPrompt(e.target.value)}
+							placeholder="Describe the image you want to generate..."
+							className="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 
+                         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                         placeholder-gray-500 text-white"
+						/>
+						<button
+							type="submit"
+							disabled={loading}
+							className="px-6 py-3 bg-blue-600 rounded-lg font-medium transition-colors
+                       hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                       focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50
+                       disabled:cursor-not-allowed flex items-center justify-center min-w-[140px]"
+						>
+							{loading ? (
+								<>
+									<Loader2 className="w-5 h-5 mr-2 animate-spin" />
+									Generating...
+								</>
+							) : (
+								"Generate Image"
+							)}
+						</button>
+					</div>
+				</form>
+
+				{image && (
+					<div className="bg-gray-800 rounded-xl p-6 shadow-xl">
+						<h2 className="text-xl font-semibold mb-4">Generated Image:</h2>
+						<div className="relative aspect-square max-w-2xl mx-auto overflow-hidden rounded-lg">
+							<img
+								src={`data:image/png;base64,${image}`}
+								alt="AI Generated"
+								className="w-full h-full object-cover"
+							/>
+						</div>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }
-
-const styles = {
-	container: {
-		padding: "40px",
-		textAlign: "center",
-		fontFamily: "'Roboto', sans-serif",
-		backgroundColor: "#f9fafb",
-		minHeight: "100vh",
-	},
-	title: {
-		fontSize: "2.5rem",
-		fontWeight: 700,
-		color: "#1f2937",
-		marginBottom: "30px",
-	},
-	form: {
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-	},
-	input: {
-		padding: "15px",
-		width: "350px",
-		fontSize: "1rem",
-		borderRadius: "8px",
-		border: "1px solid #d1d5db",
-		outline: "none",
-		transition: "border-color 0.3s ease",
-		color: "#1f2937",
-		marginBottom: "20px",
-		"&:focus": {
-			borderColor: "#0070f3",
-			color: "#1f2937",
-		},
-	},
-	button: {
-		padding: "12px 24px",
-		backgroundColor: "#0070f3",
-		color: "#fff",
-		fontSize: "1rem",
-		fontWeight: 600,
-		border: "none",
-		borderRadius: "8px",
-		cursor: "pointer",
-		transition: "background-color 0.3s ease",
-		"&:hover": {
-			backgroundColor: "#005bb5",
-		},
-	},
-	buttonDisabled: {
-		backgroundColor: "#cbd5e1",
-		cursor: "not-allowed",
-	},
-	spinner: {
-		display: "inline-block",
-		width: "20px",
-		height: "20px",
-		border: "3px solid rgba(255, 255, 255, 0.3)",
-		borderTopColor: "#fff",
-		borderRadius: "50%",
-		animation: "spin 1s linear infinite",
-	},
-	imageContainer: {
-		marginTop: "40px",
-	},
-	subtitle: {
-		fontSize: "1.5rem",
-		fontWeight: 600,
-		color: "#1f2937",
-		marginBottom: "20px",
-	},
-	image: {
-		maxWidth: "100%",
-		height: "auto",
-		borderRadius: "10px",
-		boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-	},
-};
