@@ -46,10 +46,11 @@ You can try out the live demo here: [Live Demo Link](#) *(Replace with your depl
 ---
 ### **4. Start the Development Server**
 
-
 4. Start the development server:
+  ```bash
    npm run dev
 ---
+```
 ### Usage
 
 1. Enter a text description in the input field (e.g., "a futuristic city").
