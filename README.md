@@ -49,7 +49,6 @@ You can try out the live demo here: [Live Demo Link](#) *(Replace with your depl
 4. Start the development server:
   ```bash
    npm run dev
----
 ```
 ### Usage
 
