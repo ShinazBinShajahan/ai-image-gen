@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HfInference } from "@huggingface/inference";
 import { NextResponse } from "next/server";
 
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
 
     // Return the base64 image as JSON
     return NextResponse.json({ image: base64Image }, { status: 200 });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error generating image:", error.message || error);
     return NextResponse.json(
       { error: "Failed to generate image", details: error.message },
