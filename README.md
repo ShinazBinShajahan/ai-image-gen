@@ -43,7 +43,7 @@ You can try out the live demo here: [Live Demo Link](#) *(Replace with your depl
    ```bash
    touch .env.local
 
-
+---
 ### **4. Start the Development Server**
 
 ```markdown
