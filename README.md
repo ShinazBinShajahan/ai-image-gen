@@ -2,7 +2,7 @@
 
 ![AI Image Generator](https://img.shields.io/badge/Powered%20by-Hugging%20Face-blue) ![Next.js](https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white)
 
-A simple web application that generates images based on text prompts using Hugging Face's pre-trained models (e.g., Stable Diffusion). Built with Next.js for the frontend and backend, this project allows users to input a description and generate corresponding AI-generated images.
+A simple web application that generates images based on text prompts using Hugging Face's pre-trained model. Built with Next.js for the frontend and backend, this project allows users to input a description and generate corresponding AI-generated images.
 
 ## Features
 
